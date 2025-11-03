@@ -11,15 +11,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Stylica">
 
-        <!-- Login Activity - Entry Point -->
+        <!-- Splash Activity - Entry Point -->
         <activity
-            android:name=".ui.LoginActivity"
-            android:exported="true">
+            android:name=".ui.SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Stylica.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Login Activity -->
+        <activity
+            android:name=".ui.LoginActivity"
+            android:exported="false" />
 
         <!-- Signup Activity -->
         <activity

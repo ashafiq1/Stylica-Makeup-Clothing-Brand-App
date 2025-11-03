@@ -27,7 +27,19 @@ class LoginActivity : AppCompatActivity() {
         
         // Check if already logged in
         if (sessionManager.isLoggedIn()) {
-            navigateToMain()
+            val userRole = sessionManager.getUserRole()
+            when (userRole) {
+                Constants.ROLE_ADMIN -> {
+                    startActivity(Intent(this, AdminDashboardActivity::class.java))
+                }
+                Constants.ROLE_MODERATOR -> {
+                    startActivity(Intent(this, ModeratorActivity::class.java))
+                }
+                else -> {
+                    startActivity(Intent(this, MainActivity::class.java))
+                }
+            }
+            finish()
             return
         }
         
@@ -64,22 +76,32 @@ class LoginActivity : AppCompatActivity() {
                     // Verify password
                     if (PasswordUtils.verifyPassword(password, user.passwordSalt, user.passwordHash)) {
                         sessionManager.saveUserSession(user.id, user.role)
-                        Toast.makeText(this@LoginActivity, "Login successful!", Toast.LENGTH_SHORT).show()
-                        navigateToMain()
+                        
+                        // Role-based navigation
+                        when (user.role) {
+                            Constants.ROLE_ADMIN -> {
+                                Toast.makeText(this@LoginActivity, "Welcome Admin!", Toast.LENGTH_SHORT).show()
+                                startActivity(Intent(this@LoginActivity, AdminDashboardActivity::class.java))
+                            }
+                            Constants.ROLE_MODERATOR -> {
+                                Toast.makeText(this@LoginActivity, "Welcome Moderator!", Toast.LENGTH_SHORT).show()
+                                startActivity(Intent(this@LoginActivity, ModeratorActivity::class.java))
+                            }
+                            else -> {
+                                Toast.makeText(this@LoginActivity, "Welcome back, ${user.name}!", Toast.LENGTH_SHORT).show()
+                                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                            }
+                        }
+                        finish()
                     } else {
-                        Toast.makeText(this@LoginActivity, "Invalid password", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@LoginActivity, "❌ Invalid password!", Toast.LENGTH_LONG).show()
                     }
                 } else {
-                    Toast.makeText(this@LoginActivity, "User not found", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@LoginActivity, "❌ User not found! Please sign up first.", Toast.LENGTH_LONG).show()
                 }
             } catch (e: Exception) {
-                Toast.makeText(this@LoginActivity, "Login failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@LoginActivity, "❌ Login failed: ${e.message}", Toast.LENGTH_LONG).show()
             }
         }
-    }
-    
-    private fun navigateToMain() {
-        startActivity(Intent(this, MainActivity::class.java))
-        finish()
     }
 }
