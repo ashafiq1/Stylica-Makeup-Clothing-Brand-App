@@ -1,5 +1,6 @@
 package com.stylica.makeupclothing.ui
 
+import android.graphics.Rect
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -34,7 +35,11 @@ class HomeFragment : Fragment() {
         editTextSearch = view.findViewById(R.id.editTextSearch)
         spinnerCategory = view.findViewById(R.id.spinnerCategory)
         
-        recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+        // Setup GridLayoutManager with 2 columns
+        val gridLayoutManager = GridLayoutManager(requireContext(), 2)
+        recyclerView.layoutManager = gridLayoutManager
+        
+        // Add item decoration for consistent spacing (no extra spacing needed due to card margins)
         
         productAdapter = ProductAdapter(emptyList()) { product ->
             onAddToCart(product)
