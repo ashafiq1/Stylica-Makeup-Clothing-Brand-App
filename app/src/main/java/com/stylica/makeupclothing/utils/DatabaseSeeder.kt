@@ -26,7 +26,8 @@ object DatabaseSeeder {
             val currentDate = dateFormat.format(Date())
             
             // Create Admin User
-            val adminPasswordData = PasswordUtils.hashPassword("admin123")
+            val adminSalt = PasswordUtils.generateSalt()
+            val adminPasswordHash = PasswordUtils.hashPassword("admin123", adminSalt)
             val adminUser = User(
                 id = 0,
                 name = "Admin User",
@@ -34,12 +35,13 @@ object DatabaseSeeder {
                 contact = "admin",
                 registrationDate = currentDate,
                 role = Constants.ROLE_ADMIN,
-                passwordHash = adminPasswordData.first,
-                passwordSalt = adminPasswordData.second
+                passwordHash = adminPasswordHash,
+                passwordSalt = adminSalt
             )
             
             // Create Moderator User
-            val modPasswordData = PasswordUtils.hashPassword("mod123")
+            val modSalt = PasswordUtils.generateSalt()
+            val modPasswordHash = PasswordUtils.hashPassword("mod123", modSalt)
             val moderatorUser = User(
                 id = 0,
                 name = "Moderator",
@@ -47,12 +49,13 @@ object DatabaseSeeder {
                 contact = "moderator",
                 registrationDate = currentDate,
                 role = Constants.ROLE_MODERATOR,
-                passwordHash = modPasswordData.first,
-                passwordSalt = modPasswordData.second
+                passwordHash = modPasswordHash,
+                passwordSalt = modSalt
             )
             
             // Create Regular User
-            val userPasswordData = PasswordUtils.hashPassword("user123")
+            val userSalt = PasswordUtils.generateSalt()
+            val userPasswordHash = PasswordUtils.hashPassword("user123", userSalt)
             val regularUser = User(
                 id = 0,
                 name = "Demo User",
@@ -60,8 +63,8 @@ object DatabaseSeeder {
                 contact = "user",
                 registrationDate = currentDate,
                 role = Constants.ROLE_USER,
-                passwordHash = userPasswordData.first,
-                passwordSalt = userPasswordData.second
+                passwordHash = userPasswordHash,
+                passwordSalt = userSalt
             )
             
             // Insert users
