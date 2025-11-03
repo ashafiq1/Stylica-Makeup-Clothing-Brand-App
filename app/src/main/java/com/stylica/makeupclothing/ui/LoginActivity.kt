@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import com.stylica.makeupclothing.R
 import kotlinx.coroutines.launch
 import com.stylica.makeupclothing.utils.DatabaseProvider
+import com.stylica.makeupclothing.utils.DatabaseSeeder
 import com.stylica.makeupclothing.utils.PasswordUtils
 import com.stylica.makeupclothing.utils.SessionManager
 
@@ -20,6 +21,9 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         
         sessionManager = SessionManager(this)
+        
+        // Seed database with dummy data on first launch
+        DatabaseSeeder.seedDatabase(this)
         
         // Check if already logged in
         if (sessionManager.isLoggedIn()) {
