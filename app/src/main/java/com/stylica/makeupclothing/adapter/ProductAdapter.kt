@@ -41,8 +41,8 @@ class ProductAdapter(
         // Load image with Glide
         Glide.with(holder.itemView.context)
             .load(product.imageUrl)
-            .placeholder(R.drawable.ic_menu_gallery)
-            .error(R.drawable.ic_menu_gallery)
+            .placeholder(R.drawable.ic_placeholder)
+            .error(R.drawable.ic_error)
             .centerCrop()
             .into(holder.imageView)
         

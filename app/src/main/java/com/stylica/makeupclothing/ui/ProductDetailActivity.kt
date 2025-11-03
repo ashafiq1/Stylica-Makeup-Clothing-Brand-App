@@ -71,8 +71,8 @@ class ProductDetailActivity : AppCompatActivity() {
         // Load image with Glide
         Glide.with(this)
             .load(product.imageUrl)
-            .placeholder(R.drawable.ic_menu_gallery)
-            .error(R.drawable.ic_menu_gallery)
+            .placeholder(R.drawable.ic_placeholder)
+            .error(R.drawable.ic_error)
             .centerCrop()
             .into(imageView)
 
