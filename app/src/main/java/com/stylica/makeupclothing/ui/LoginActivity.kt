@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.stylica.makeupclothing.R
+import com.stylica.makeupclothing.utils.Constants
 import kotlinx.coroutines.launch
 import com.stylica.makeupclothing.utils.DatabaseProvider
 import com.stylica.makeupclothing.utils.DatabaseSeeder
