@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Stylica</string>
+    <string name="login">Login</string>
+    <string name="signup">Signup</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="home">Home</string>
+    <string name="cart">Cart</string>
+    <string name="profile">Profile</string>
+    <string name="add_to_cart">Add to Cart</string>
+    <string name="buy_now">Buy Now</string>
+    <string name="checkout">Checkout</string>
+    <string name="logout">Logout</string>
+</resources>
