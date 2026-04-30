@@ -12,24 +12,48 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="12dp">
+        android:padding="10dp">
 
-        <!-- Product Image -->
-        <androidx.cardview.widget.CardView
+        <!-- Image with sale badge overlay -->
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="180dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"
+            android:layout_height="160dp"
             android:layout_marginBottom="8dp">
 
-            <ImageView
-                android:id="@+id/imageViewProduct"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:contentDescription="Product Image" />
+                app:cardCornerRadius="8dp"
+                app:cardElevation="0dp">
 
-        </androidx.cardview.widget.CardView>
+                <ImageView
+                    android:id="@+id/imageViewProduct"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="Product Image" />
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Sale Badge -->
+            <TextView
+                android:id="@+id/textViewSaleBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="50% OFF"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/bg_button_primary"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:layout_gravity="top|end"
+                android:layout_margin="6dp"
+                android:visibility="gone" />
+
+        </FrameLayout>
 
         <!-- Product Name -->
         <TextView
@@ -37,53 +61,51 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Product Name"
-            android:textSize="14sp"
+            android:textSize="13sp"
             android:textStyle="bold"
             android:textColor="#212121"
             android:maxLines="2"
             android:ellipsize="end"
-            android:layout_marginBottom="4dp" />
+            android:layout_marginBottom="3dp" />
 
-        <!-- Product Category -->
+        <!-- Category -->
         <TextView
             android:id="@+id/textViewProductCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Category"
             android:textSize="11sp"
-            android:textColor="#757575"
-            android:maxLines="1"
-            android:ellipsize="end"
+            android:textColor="#E91E8C"
             android:layout_marginBottom="8dp" />
 
-        <!-- Price and Add Button Row -->
+        <!-- Price and Add Row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
-            <!-- Product Price -->
             <TextView
                 android:id="@+id/textViewProductPrice"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="$0.00"
-                android:textColor="#FFC107"
-                android:textSize="16sp"
+                android:text="Rs 0"
+                android:textColor="#1A1A2E"
+                android:textSize="15sp"
                 android:textStyle="bold" />
 
-            <!-- Add to Cart Button -->
             <Button
                 android:id="@+id/buttonAddToCart"
                 android:layout_width="wrap_content"
-                android:layout_height="36dp"
+                android:layout_height="34dp"
                 android:text="ADD"
-                android:textSize="12sp"
+                android:textSize="11sp"
                 android:textStyle="bold"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#E91E8C"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
                 style="@style/Widget.MaterialComponents.Button" />

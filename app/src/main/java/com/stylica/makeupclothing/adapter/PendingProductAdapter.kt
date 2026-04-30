@@ -34,7 +34,7 @@ class PendingProductAdapter(
         val product = products[position]
         holder.nameTextView.text = product.name
         holder.categoryTextView.text = product.category.replaceFirstChar { it.uppercase() }
-        holder.priceTextView.text = "$${product.price}"
+        holder.priceTextView.text = "Rs ${product.price.toLong()}"
         holder.descriptionTextView.text = product.description ?: "No description available"
         holder.approveButton.setOnClickListener { onApprove(product) }
         holder.rejectButton.setOnClickListener { onReject(product) }

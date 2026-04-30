@@ -18,11 +18,14 @@ class ProductAdapter(
     private val onAddToCartClick: (Product) -> Unit
 ) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
 
+    private var isSaleMode = false
+
     class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.imageViewProduct)
         val nameTextView: TextView = itemView.findViewById(R.id.textViewProductName)
         val categoryTextView: TextView = itemView.findViewById(R.id.textViewProductCategory)
         val priceTextView: TextView = itemView.findViewById(R.id.textViewProductPrice)
+        val saleBadge: TextView = itemView.findViewById(R.id.textViewSaleBadge)
         val addToCartButton: Button = itemView.findViewById(R.id.buttonAddToCart)
     }
 
@@ -35,23 +38,30 @@ class ProductAdapter(
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val product = products[position]
         holder.nameTextView.text = product.name
-        holder.categoryTextView.text = product.category
-        holder.priceTextView.text = "$${product.price}"
-        
-        // Load image with Glide
+        holder.categoryTextView.text = product.category.replaceFirstChar { it.uppercase() }
+
+        if (isSaleMode) {
+            val salePrice = (product.price * 0.5).toLong()
+            holder.priceTextView.text = "Rs $salePrice"
+            holder.saleBadge.visibility = View.VISIBLE
+        } else {
+            holder.priceTextView.text = "Rs ${product.price.toLong()}"
+            holder.saleBadge.visibility = View.GONE
+        }
+
         Glide.with(holder.itemView.context)
             .load(product.imageUrl)
             .placeholder(R.drawable.ic_placeholder)
             .error(R.drawable.ic_error)
             .centerCrop()
             .into(holder.imageView)
-        
+
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, ProductDetailActivity::class.java)
             intent.putExtra("PRODUCT_ID", product.id)
             holder.itemView.context.startActivity(intent)
         }
-        
+
         holder.addToCartButton.setOnClickListener {
             onAddToCartClick(product)
         }
@@ -59,8 +69,9 @@ class ProductAdapter(
 
     override fun getItemCount(): Int = products.size
 
-    fun updateProducts(newProducts: List<Product>) {
+    fun updateProducts(newProducts: List<Product>, saleMode: Boolean = false) {
         products = newProducts
+        isSaleMode = saleMode
         notifyDataSetChanged()
     }
 }

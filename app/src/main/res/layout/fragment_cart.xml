@@ -65,7 +65,7 @@
             android:id="@+id/textViewTotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Total: $0.00"
+            android:text="Total: Rs 0"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="#212121"

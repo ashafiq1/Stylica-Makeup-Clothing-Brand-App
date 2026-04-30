@@ -1,6 +1,8 @@
 package com.stylica.makeupclothing.ui
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -13,6 +15,7 @@ import com.stylica.makeupclothing.adapter.PendingProductAdapter
 import kotlinx.coroutines.launch
 import com.stylica.makeupclothing.model.Product
 import com.stylica.makeupclothing.utils.DatabaseProvider
+import com.stylica.makeupclothing.utils.SessionManager
 
 class ModeratorActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -34,6 +37,14 @@ class ModeratorActivity : AppCompatActivity() {
             onReject = { product -> confirmRejectProduct(product) }
         )
         recyclerView.adapter = pendingProductAdapter
+
+        findViewById<Button>(R.id.buttonModeratorLogout).setOnClickListener {
+            SessionManager(this).logout()
+            val intent = Intent(this, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
+        }
 
         loadPendingProducts()
     }

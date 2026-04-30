@@ -33,7 +33,7 @@ class AdminProductAdapter(
         val product = products[position]
         holder.nameTextView.text = product.name
         holder.categoryTextView.text = product.category.replaceFirstChar { it.uppercase() }
-        holder.priceTextView.text = "$${product.price}"
+        holder.priceTextView.text = "Rs ${product.price.toLong()}"
 
         if (product.approved) {
             holder.statusTextView.text = "Approved"

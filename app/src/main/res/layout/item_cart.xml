@@ -40,7 +40,7 @@
                 android:id="@+id/textViewCartProductPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$0.00"
+                android:text="Rs 0"
                 android:textColor="#4CAF50"
                 android:textSize="16sp"
                 android:textStyle="bold"

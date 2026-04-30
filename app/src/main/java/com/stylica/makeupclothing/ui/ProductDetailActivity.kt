@@ -69,7 +69,7 @@ class ProductDetailActivity : AppCompatActivity() {
 
         nameTextView.text = product.name
         categoryTextView.text = "Category: ${product.category}"
-        priceTextView.text = "$${product.price}"
+        priceTextView.text = "Rs ${product.price.toLong()}"
         descriptionTextView.text = product.description ?: "No description available"
 
         // Load image with Glide

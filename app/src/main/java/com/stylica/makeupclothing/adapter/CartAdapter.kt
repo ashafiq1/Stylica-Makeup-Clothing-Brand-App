@@ -38,7 +38,7 @@ class CartAdapter(
         val (cartItem, product) = cartItems[position]
 
         holder.nameTextView.text = product.name
-        holder.priceTextView.text = "${"$"}${"%.2f".format(product.price * cartItem.quantity)}"
+        holder.priceTextView.text = "Rs ${"%.0f".format(product.price * cartItem.quantity)}"
         holder.quantityTextView.text = cartItem.quantity.toString()
 
         Glide.with(holder.itemView.context)

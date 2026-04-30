@@ -134,6 +134,6 @@ class CartFragment : Fragment() {
         cartItems.forEach { (cartItem, product) ->
             total += product.price * cartItem.quantity
         }
-        textViewTotal.text = "Total: $${"%.2f".format(total)}"
+        textViewTotal.text = "Total: Rs ${"%.0f".format(total)}"
     }
 }

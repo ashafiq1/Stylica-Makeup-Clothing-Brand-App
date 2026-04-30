@@ -31,6 +31,8 @@ object Constants {
     const val CATEGORY_MAKEUP = "makeup"
     const val CATEGORY_CLOTHING = "clothing"
     const val CATEGORY_ACCESSORIES = "accessories"
+    const val CATEGORY_SHOES = "shoes"
+    const val CATEGORY_SALE = "sale"
     
     // Shared Preferences
     const val PREF_NAME = "stylica_prefs"

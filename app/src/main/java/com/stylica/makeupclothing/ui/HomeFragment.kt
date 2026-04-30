@@ -1,6 +1,5 @@
 package com.stylica.makeupclothing.ui
 
-import android.graphics.Rect
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -27,61 +26,79 @@ class HomeFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var productAdapter: ProductAdapter
     private lateinit var editTextSearch: EditText
-    private lateinit var spinnerCategory: Spinner
     private var allProducts = listOf<Product>()
+    private var selectedCategory = "All"
+
+    // Category chips
+    private lateinit var chipAll: TextView
+    private lateinit var chipMakeup: TextView
+    private lateinit var chipClothing: TextView
+    private lateinit var chipAccessories: TextView
+    private lateinit var chipShoes: TextView
+    private lateinit var chipSale: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
-        
+
         recyclerView = view.findViewById(R.id.recyclerViewProducts)
         editTextSearch = view.findViewById(R.id.editTextSearch)
-        spinnerCategory = view.findViewById(R.id.spinnerCategory)
-        
-        // Setup GridLayoutManager with 2 columns
-        val gridLayoutManager = GridLayoutManager(requireContext(), 2)
-        recyclerView.layoutManager = gridLayoutManager
-        
-        // Add item decoration for consistent spacing (no extra spacing needed due to card margins)
-        
+
+        chipAll = view.findViewById(R.id.chipAll)
+        chipMakeup = view.findViewById(R.id.chipMakeup)
+        chipClothing = view.findViewById(R.id.chipClothing)
+        chipAccessories = view.findViewById(R.id.chipAccessories)
+        chipShoes = view.findViewById(R.id.chipShoes)
+        chipSale = view.findViewById(R.id.chipSale)
+
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+
         productAdapter = ProductAdapter(emptyList()) { product ->
             onAddToCart(product)
         }
         recyclerView.adapter = productAdapter
-        
-        setupCategoryFilter()
+
+        setupChips()
         setupSearch()
         loadProducts()
-        
+
         return view
     }
 
-    private fun setupCategoryFilter() {
-        val categories = arrayOf("All", Constants.CATEGORY_MAKEUP, Constants.CATEGORY_CLOTHING, Constants.CATEGORY_ACCESSORIES)
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categories)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinnerCategory.adapter = adapter
+    private fun setupChips() {
+        val chips = listOf(chipAll, chipMakeup, chipClothing, chipAccessories, chipShoes, chipSale)
+        val categories = listOf("All", Constants.CATEGORY_MAKEUP, Constants.CATEGORY_CLOTHING,
+            Constants.CATEGORY_ACCESSORIES, Constants.CATEGORY_SHOES, Constants.CATEGORY_SALE)
 
-        spinnerCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        chips.forEachIndexed { index, chip ->
+            chip.setOnClickListener {
+                selectedCategory = categories[index]
+                chips.forEach { c -> setChipUnselected(c) }
+                setChipSelected(chip)
                 filterProducts()
             }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
+    }
+
+    private fun setChipSelected(chip: TextView) {
+        chip.setBackgroundResource(R.drawable.bg_chip_selected)
+        chip.setTextColor(resources.getColor(android.R.color.white, null))
+    }
+
+    private fun setChipUnselected(chip: TextView) {
+        chip.setBackgroundResource(R.drawable.bg_chip_unselected)
+        chip.setTextColor(resources.getColor(android.R.color.darker_gray, null))
     }
 
     private fun setupSearch() {
         editTextSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) {
-                filterProducts()
-            }
+            override fun afterTextChanged(s: Editable?) { filterProducts() }
         })
     }
-    
+
     private fun loadProducts() {
         lifecycleScope.launch {
             try {
@@ -96,19 +113,24 @@ class HomeFragment : Fragment() {
 
     private fun filterProducts() {
         val searchQuery = editTextSearch.text.toString().lowercase()
-        val selectedCategory = spinnerCategory.selectedItem.toString()
 
         val filteredProducts = allProducts.filter { product ->
             val matchesSearch = product.name.lowercase().contains(searchQuery) ||
                     product.description?.lowercase()?.contains(searchQuery) == true
-            val matchesCategory = selectedCategory == "All" || product.category == selectedCategory
+
+            val matchesCategory = when (selectedCategory) {
+                "All" -> true
+                Constants.CATEGORY_SALE -> true // show all products as "on sale"
+                else -> product.category == selectedCategory
+            }
 
             matchesSearch && matchesCategory
         }
 
-        productAdapter.updateProducts(filteredProducts)
+        // For Sale category show max 50% price visually (handled in adapter separately)
+        productAdapter.updateProducts(filteredProducts, selectedCategory == Constants.CATEGORY_SALE)
     }
-    
+
     private fun onAddToCart(product: Product) {
         val userId = SessionManager(requireContext()).getUserId()
         if (userId == -1) {

@@ -5,13 +5,12 @@
     android:orientation="vertical"
     android:background="#FFFFFF">
 
-    <!-- ===== HEADER SECTION ===== -->
+    <!-- HEADER -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="260dp"
         android:background="@drawable/bg_header">
 
-        <!-- Store Name + Tagline (centered) -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -19,7 +18,6 @@
             android:gravity="center"
             android:layout_centerInParent="true">
 
-            <!-- Logo Circle -->
             <TextView
                 android:layout_width="90dp"
                 android:layout_height="90dp"
@@ -30,18 +28,17 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Store Name -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Eman Tariq"
-                android:textSize="28sp"
+                android:text="STYLICA"
+                android:textSize="30sp"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"
+                android:letterSpacing="0.15"
                 android:layout_gravity="center"
                 android:layout_marginBottom="6dp" />
 
-            <!-- Tagline -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -54,7 +51,7 @@
 
     </RelativeLayout>
 
-    <!-- ===== FORM SECTION ===== -->
+    <!-- FORM -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -67,10 +64,9 @@
             android:orientation="vertical"
             android:paddingStart="28dp"
             android:paddingEnd="28dp"
-            android:paddingTop="36dp"
+            android:paddingTop="32dp"
             android:paddingBottom="32dp">
 
-            <!-- Welcome Text -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -88,7 +84,6 @@
                 android:textColor="#9E9E9E"
                 android:layout_marginBottom="28dp" />
 
-            <!-- Username Field -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -112,7 +107,6 @@
                 android:textColorHint="#BDBDBD"
                 android:layout_marginBottom="18dp" />
 
-            <!-- Password Field -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -136,7 +130,7 @@
                 android:textColorHint="#BDBDBD"
                 android:layout_marginBottom="32dp" />
 
-            <!-- Login Button -->
+            <!-- LOGIN button -->
             <Button
                 android:id="@+id/buttonLogin"
                 android:layout_width="match_parent"
@@ -145,11 +139,11 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"
-                android:background="@drawable/bg_button_primary"
-                android:stateListAnimator="@null"
-                android:layout_marginBottom="16dp" />
+                android:backgroundTint="#E91E8C"
+                android:layout_marginBottom="16dp"
+                style="@style/Widget.MaterialComponents.Button" />
 
-            <!-- Divider -->
+            <!-- OR divider -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -178,17 +172,17 @@
 
             </LinearLayout>
 
-            <!-- Sign Up Button -->
+            <!-- SIGN UP button -->
             <Button
                 android:id="@+id/buttonSignup"
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
-                android:text="CREATE ACCOUNT"
+                android:text="SIGN UP"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:textColor="#E91E8C"
-                android:background="@drawable/bg_input_field"
-                android:stateListAnimator="@null" />
+                android:backgroundTint="#FCE4EC"
+                style="@style/Widget.MaterialComponents.Button" />
 
         </LinearLayout>
 
