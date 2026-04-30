@@ -4,19 +4,62 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <!-- Empty Cart State -->
+    <LinearLayout
+        android:id="@+id/layoutEmptyCart"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="&#128722;"
+            android:textSize="72sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your cart is empty"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#212121"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Browse products and add items to get started"
+            android:textSize="13sp"
+            android:textColor="#9E9E9E"
+            android:layout_marginTop="8dp"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+    <!-- Cart Items List -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewCart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:padding="8dp" />
+        android:padding="8dp"
+        android:clipToPadding="false"
+        android:visibility="gone" />
 
+    <!-- Bottom Checkout Section -->
     <LinearLayout
+        android:id="@+id/layoutCartBottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp"
-        android:background="#F5F5F5">
+        android:background="#F5F5F5"
+        android:elevation="4dp"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/textViewTotal"
@@ -25,14 +68,18 @@
             android:text="Total: $0.00"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:textColor="#212121"
             android:layout_gravity="end" />
 
         <Button
             android:id="@+id/buttonCheckout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="52dp"
             android:text="Proceed to Checkout"
-            android:layout_marginTop="8dp" />
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            style="@style/Widget.MaterialComponents.Button" />
 
     </LinearLayout>
 

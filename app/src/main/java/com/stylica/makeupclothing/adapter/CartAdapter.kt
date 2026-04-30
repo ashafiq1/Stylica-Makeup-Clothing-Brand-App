@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.stylica.makeupclothing.R
 import com.stylica.makeupclothing.model.CartItem
 import com.stylica.makeupclothing.model.Product
@@ -35,10 +36,17 @@ class CartAdapter(
 
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
         val (cartItem, product) = cartItems[position]
-        
+
         holder.nameTextView.text = product.name
-        holder.priceTextView.text = "$${product.price * cartItem.quantity}"
+        holder.priceTextView.text = "${"$"}${"%.2f".format(product.price * cartItem.quantity)}"
         holder.quantityTextView.text = cartItem.quantity.toString()
+
+        Glide.with(holder.itemView.context)
+            .load(product.imageUrl)
+            .placeholder(R.drawable.ic_placeholder)
+            .error(R.drawable.ic_error)
+            .centerCrop()
+            .into(holder.imageView)
 
         holder.buttonIncrease.setOnClickListener {
             onQuantityChange(cartItem, cartItem.quantity + 1)

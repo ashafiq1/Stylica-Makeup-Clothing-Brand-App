@@ -1,6 +1,7 @@
 package com.stylica.makeupclothing.ui
 
 import android.os.Bundle
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -8,12 +9,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.stylica.makeupclothing.R
+import com.stylica.makeupclothing.adapter.PendingProductAdapter
 import kotlinx.coroutines.launch
 import com.stylica.makeupclothing.model.Product
 import com.stylica.makeupclothing.utils.DatabaseProvider
 
 class ModeratorActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
+    private lateinit var textViewPendingCount: TextView
+    private lateinit var pendingProductAdapter: PendingProductAdapter
     private val pendingProducts = mutableListOf<Product>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,7 +25,15 @@ class ModeratorActivity : AppCompatActivity() {
         setContentView(R.layout.activity_moderator)
 
         recyclerView = findViewById(R.id.recyclerViewPendingProducts)
+        textViewPendingCount = findViewById(R.id.textViewPendingCount)
         recyclerView.layoutManager = LinearLayoutManager(this)
+
+        pendingProductAdapter = PendingProductAdapter(
+            products = pendingProducts,
+            onApprove = { product -> showApprovalDialog(product) },
+            onReject = { product -> confirmRejectProduct(product) }
+        )
+        recyclerView.adapter = pendingProductAdapter
 
         loadPendingProducts()
     }
@@ -31,16 +43,10 @@ class ModeratorActivity : AppCompatActivity() {
             try {
                 val database = DatabaseProvider.getDatabase(applicationContext)
                 val allProducts = database.productDao().getAllProducts()
-                
-                pendingProducts.clear()
-                pendingProducts.addAll(allProducts.filter { !it.approved })
+                val pending = allProducts.filter { !it.approved }
 
-                // TODO: Setup adapter with approve/reject buttons
-                Toast.makeText(
-                    this@ModeratorActivity,
-                    "${pendingProducts.size} products pending approval",
-                    Toast.LENGTH_SHORT
-                ).show()
+                pendingProductAdapter.updateProducts(pending)
+                textViewPendingCount.text = "${pending.size} product(s) pending approval"
             } catch (e: Exception) {
                 Toast.makeText(this@ModeratorActivity, "Failed to load products", Toast.LENGTH_SHORT).show()
             }
@@ -50,14 +56,22 @@ class ModeratorActivity : AppCompatActivity() {
     private fun showApprovalDialog(product: Product) {
         AlertDialog.Builder(this)
             .setTitle("Approve Product")
-            .setMessage("Do you want to approve '${product.name}'?")
+            .setMessage("Approve '${product.name}'?\n\nCategory: ${product.category}\nPrice: $${product.price}")
             .setPositiveButton("Approve") { _, _ ->
                 approveProduct(product)
             }
-            .setNegativeButton("Reject") { _, _ ->
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun confirmRejectProduct(product: Product) {
+        AlertDialog.Builder(this)
+            .setTitle("Reject Product")
+            .setMessage("Reject and delete '${product.name}'? This cannot be undone.")
+            .setPositiveButton("Reject") { _, _ ->
                 rejectProduct(product)
             }
-            .setNeutralButton("Cancel", null)
+            .setNegativeButton("Cancel", null)
             .show()
     }
 
@@ -67,8 +81,7 @@ class ModeratorActivity : AppCompatActivity() {
                 val approvedProduct = product.copy(approved = true)
                 val database = DatabaseProvider.getDatabase(applicationContext)
                 database.productDao().updateProduct(approvedProduct)
-                
-                Toast.makeText(this@ModeratorActivity, "Product approved", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@ModeratorActivity, "'${product.name}' approved!", Toast.LENGTH_SHORT).show()
                 loadPendingProducts()
             } catch (e: Exception) {
                 Toast.makeText(this@ModeratorActivity, "Failed to approve product", Toast.LENGTH_SHORT).show()
@@ -81,8 +94,7 @@ class ModeratorActivity : AppCompatActivity() {
             try {
                 val database = DatabaseProvider.getDatabase(applicationContext)
                 database.productDao().deleteProduct(product)
-                
-                Toast.makeText(this@ModeratorActivity, "Product rejected", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@ModeratorActivity, "'${product.name}' rejected and removed", Toast.LENGTH_SHORT).show()
                 loadPendingProducts()
             } catch (e: Exception) {
                 Toast.makeText(this@ModeratorActivity, "Failed to reject product", Toast.LENGTH_SHORT).show()

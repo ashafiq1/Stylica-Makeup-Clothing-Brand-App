@@ -1,5 +1,6 @@
 package com.stylica.makeupclothing.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
@@ -13,16 +14,19 @@ import kotlinx.coroutines.launch
 import com.stylica.makeupclothing.model.CartItem
 import com.stylica.makeupclothing.model.Product
 import com.stylica.makeupclothing.utils.DatabaseProvider
+import com.stylica.makeupclothing.utils.SessionManager
 import java.text.SimpleDateFormat
 import java.util.*
 
 class ProductDetailActivity : AppCompatActivity() {
     private lateinit var product: Product
-    private var userId: Int = 1 // TODO: Get from session
+    private var userId: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_detail)
+
+        userId = SessionManager(this).getUserId()
 
         // Get product ID from intent
         val productId = intent.getIntExtra("PRODUCT_ID", -1)
@@ -106,8 +110,9 @@ class ProductDetailActivity : AppCompatActivity() {
     }
 
     private fun buyNow() {
-        // TODO: Navigate to checkout
-        Toast.makeText(this, "Buy Now - Coming Soon", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, CheckoutActivity::class.java)
+        intent.putExtra("BUY_NOW_PRODUCT_ID", product.id)
+        startActivity(intent)
     }
 
     private fun getCurrentDate(): String {

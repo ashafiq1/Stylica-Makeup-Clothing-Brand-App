@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -18,44 +19,46 @@ import kotlinx.coroutines.launch
 import com.stylica.makeupclothing.model.CartItem
 import com.stylica.makeupclothing.model.Product
 import com.stylica.makeupclothing.utils.DatabaseProvider
+import com.stylica.makeupclothing.utils.SessionManager
 
 class CartFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var cartAdapter: CartAdapter
     private lateinit var textViewTotal: TextView
     private lateinit var buttonCheckout: Button
-    private var userId: Int = 1 // TODO: Get from session
+    private lateinit var layoutEmptyCart: LinearLayout
+    private lateinit var layoutCartBottom: LinearLayout
+    private var userId: Int = -1
     private val cartItems = mutableListOf<Pair<CartItem, Product>>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_cart, container, false)
-        
+
+        userId = SessionManager(requireContext()).getUserId()
+
         recyclerView = view.findViewById(R.id.recyclerViewCart)
         textViewTotal = view.findViewById(R.id.textViewTotal)
         buttonCheckout = view.findViewById(R.id.buttonCheckout)
-        
+        layoutEmptyCart = view.findViewById(R.id.layoutEmptyCart)
+        layoutCartBottom = view.findViewById(R.id.layoutCartBottom)
+
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        
+
         cartAdapter = CartAdapter(
             cartItems = emptyList(),
             onRemoveClick = { cartItem -> removeFromCart(cartItem) },
             onQuantityChange = { cartItem, newQuantity -> updateQuantity(cartItem, newQuantity) }
         )
         recyclerView.adapter = cartAdapter
-        
+
         buttonCheckout.setOnClickListener {
-            if (cartItems.isNotEmpty()) {
-                val intent = Intent(requireContext(), CheckoutActivity::class.java)
-                startActivity(intent)
-            } else {
-                Toast.makeText(requireContext(), "Cart is empty", Toast.LENGTH_SHORT).show()
-            }
+            startActivity(Intent(requireContext(), CheckoutActivity::class.java))
         }
-        
+
         loadCart()
-        
+
         return view
     }
 
@@ -70,7 +73,7 @@ class CartFragment : Fragment() {
                 val database = DatabaseProvider.getDatabase(requireContext())
                 val items = database.cartItemDao().getCartItemsByUser(userId)
                 val products = database.productDao().getAllProducts()
-                
+
                 cartItems.clear()
                 items.forEach { cartItem ->
                     val product = products.find { it.id == cartItem.productId }
@@ -78,12 +81,25 @@ class CartFragment : Fragment() {
                         cartItems.add(Pair(cartItem, product))
                     }
                 }
-                
+
                 cartAdapter.updateCart(cartItems)
                 updateTotal()
+                updateEmptyState()
             } catch (e: Exception) {
                 Toast.makeText(requireContext(), "Failed to load cart", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    private fun updateEmptyState() {
+        if (cartItems.isEmpty()) {
+            layoutEmptyCart.visibility = View.VISIBLE
+            recyclerView.visibility = View.GONE
+            layoutCartBottom.visibility = View.GONE
+        } else {
+            layoutEmptyCart.visibility = View.GONE
+            recyclerView.visibility = View.VISIBLE
+            layoutCartBottom.visibility = View.VISIBLE
         }
     }
 
@@ -92,7 +108,7 @@ class CartFragment : Fragment() {
             try {
                 val database = DatabaseProvider.getDatabase(requireContext())
                 database.cartItemDao().deleteCartItem(cartItem)
-                Toast.makeText(requireContext(), "Item removed from cart", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Item removed", Toast.LENGTH_SHORT).show()
                 loadCart()
             } catch (e: Exception) {
                 Toast.makeText(requireContext(), "Failed to remove item", Toast.LENGTH_SHORT).show()

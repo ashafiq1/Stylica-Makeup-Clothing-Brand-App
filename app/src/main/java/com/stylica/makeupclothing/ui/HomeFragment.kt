@@ -15,9 +15,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.stylica.makeupclothing.adapter.ProductAdapter
 import com.stylica.makeupclothing.R
 import kotlinx.coroutines.launch
+import com.stylica.makeupclothing.model.CartItem
 import com.stylica.makeupclothing.model.Product
 import com.stylica.makeupclothing.utils.Constants
 import com.stylica.makeupclothing.utils.DatabaseProvider
+import com.stylica.makeupclothing.utils.SessionManager
+import java.text.SimpleDateFormat
+import java.util.*
 
 class HomeFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
@@ -106,7 +110,30 @@ class HomeFragment : Fragment() {
     }
     
     private fun onAddToCart(product: Product) {
-        Toast.makeText(requireContext(), "${product.name} added to cart", Toast.LENGTH_SHORT).show()
-        // TODO: Implement cart functionality
+        val userId = SessionManager(requireContext()).getUserId()
+        if (userId == -1) {
+            Toast.makeText(requireContext(), "Please log in first", Toast.LENGTH_SHORT).show()
+            return
+        }
+        lifecycleScope.launch {
+            try {
+                val database = DatabaseProvider.getDatabase(requireContext())
+                val existing = database.cartItemDao().getCartItemByUserAndProduct(userId, product.id)
+                if (existing != null) {
+                    database.cartItemDao().insertCartItem(existing.copy(quantity = existing.quantity + 1))
+                } else {
+                    val cartItem = CartItem(
+                        userId = userId,
+                        productId = product.id,
+                        quantity = 1,
+                        addedDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+                    )
+                    database.cartItemDao().insertCartItem(cartItem)
+                }
+                Toast.makeText(requireContext(), "${product.name} added to cart!", Toast.LENGTH_SHORT).show()
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), "Failed to add to cart", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

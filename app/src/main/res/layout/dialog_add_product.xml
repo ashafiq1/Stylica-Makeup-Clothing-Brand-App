@@ -9,26 +9,48 @@
         android:id="@+id/editTextProductName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Product Name" />
+        android:hint="Product Name *"
+        android:inputType="textCapWords"
+        android:layout_marginBottom="12dp" />
 
-    <EditText
-        android:id="@+id/editTextProductCategory"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Category *"
+        android:textSize="13sp"
+        android:textColor="#757575"
+        android:layout_marginBottom="4dp" />
+
+    <Spinner
+        android:id="@+id/spinnerProductCategory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Category" />
+        android:layout_marginBottom="12dp" />
+
+    <EditText
+        android:id="@+id/editTextProductImageUrl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Image URL (optional)"
+        android:inputType="textUri"
+        android:layout_marginBottom="12dp" />
 
     <EditText
         android:id="@+id/editTextProductPrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Price"
-        android:inputType="numberDecimal" />
+        android:hint="Price *"
+        android:inputType="numberDecimal"
+        android:layout_marginBottom="12dp" />
 
     <EditText
         android:id="@+id/editTextProductDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Description"
-        android:minLines="3" />
+        android:inputType="textMultiLine"
+        android:minLines="3"
+        android:gravity="top"
+        android:layout_marginBottom="4dp" />
 
 </LinearLayout>
