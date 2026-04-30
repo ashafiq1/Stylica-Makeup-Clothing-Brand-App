@@ -15,7 +15,8 @@ import com.stylica.makeupclothing.model.*
         Employee::class,
         CartItem::class
     ],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun productDao(): ProductDao
