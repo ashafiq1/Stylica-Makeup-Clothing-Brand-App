@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:gravity="center">
+    android:background="@drawable/bg_header">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -12,52 +11,56 @@
         android:gravity="center"
         android:layout_centerInParent="true">
 
-        <!-- App Logo/Icon -->
+        <!-- Logo Circle -->
         <TextView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:text="💄"
-            android:textSize="60sp"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:text="&#128132;"
+            android:textSize="54sp"
             android:gravity="center"
-            android:background="@drawable/ic_placeholder"
+            android:background="@drawable/bg_logo_circle"
+            android:layout_gravity="center"
             android:layout_marginBottom="24dp" />
 
-        <!-- App Name -->
+        <!-- Store Name -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Stylica"
-            android:textSize="32sp"
+            android:text="Eman Tariq"
+            android:textSize="34sp"
             android:textStyle="bold"
-            android:textColor="#FFC107"
+            android:textColor="#FFFFFF"
+            android:layout_gravity="center"
             android:layout_marginBottom="8dp" />
 
         <!-- Tagline -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Makeup + Clothing Brand"
+            android:text="Fashion &amp; Beauty Store"
             android:textSize="14sp"
-            android:textColor="#757575" />
+            android:textColor="#FFD6EC"
+            android:layout_gravity="center"
+            android:layout_marginBottom="40dp" />
 
         <!-- Loading Indicator -->
         <ProgressBar
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="32dp"
-            android:indeterminateTint="#FFC107" />
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:indeterminateTint="#FFFFFF"
+            android:layout_gravity="center" />
 
     </LinearLayout>
 
-    <!-- Version Info -->
+    <!-- Version -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Version 1.0"
         android:textSize="12sp"
-        android:textColor="#BDBDBD"
+        android:textColor="#FFD6EC"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="24dp" />
+        android:layout_marginBottom="28dp" />
 
 </RelativeLayout>

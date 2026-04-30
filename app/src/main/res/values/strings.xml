@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Stylica</string>
+    <string name="app_name">Eman Tariq</string>
     <string name="login">Login</string>
-    <string name="signup">Signup</string>
+    <string name="signup">Sign Up</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="home">Home</string>
@@ -12,4 +12,5 @@
     <string name="buy_now">Buy Now</string>
     <string name="checkout">Checkout</string>
     <string name="logout">Logout</string>
+    <string name="store_tagline">Fashion &amp; Beauty Store</string>
 </resources>
