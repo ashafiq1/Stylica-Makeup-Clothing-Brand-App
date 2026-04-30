@@ -252,8 +252,72 @@ object DatabaseSeeder {
                 )
             )
             
+            // Create Dummy Pending Products (awaiting moderator approval)
+            val pendingProducts = listOf(
+                Product(
+                    id = 0,
+                    name = "Rose Gold Highlighter",
+                    category = "makeup",
+                    subcategory = "face",
+                    price = 649.0,
+                    description = "Stunning rose gold highlighter for a blinding glow. Buildable formula.",
+                    imageUrl = "https://images.unsplash.com/photo-1631214500004-9e70b4a70f91?w=300",
+                    registrationDate = currentDate,
+                    approved = false,
+                    vendorId = 3
+                ),
+                Product(
+                    id = 0,
+                    name = "Embroidered Kurta",
+                    category = "clothing",
+                    subcategory = "tops",
+                    price = 2199.0,
+                    description = "Beautiful hand-embroidered kurta in lawn fabric. Perfect for casual and semi-formal wear.",
+                    imageUrl = "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=300",
+                    registrationDate = currentDate,
+                    approved = false,
+                    vendorId = 3
+                ),
+                Product(
+                    id = 0,
+                    name = "Pearl Necklace Set",
+                    category = "accessories",
+                    subcategory = "jewelry",
+                    price = 1799.0,
+                    description = "Elegant faux pearl necklace and earring set. Perfect for weddings and formal events.",
+                    imageUrl = "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=300",
+                    registrationDate = currentDate,
+                    approved = false,
+                    vendorId = 3
+                ),
+                Product(
+                    id = 0,
+                    name = "Velvet Lip Gloss",
+                    category = "makeup",
+                    subcategory = "lips",
+                    price = 449.0,
+                    description = "Non-sticky velvet finish lip gloss in 6 shades. Long-wearing hydrating formula.",
+                    imageUrl = "https://images.unsplash.com/photo-1583241475880-083f84f2b9f3?w=300",
+                    registrationDate = currentDate,
+                    approved = false,
+                    vendorId = 3
+                ),
+                Product(
+                    id = 0,
+                    name = "Printed Palazzo Pants",
+                    category = "clothing",
+                    subcategory = "bottoms",
+                    price = 1299.0,
+                    description = "Flowy printed palazzo pants. Comfortable for all-day wear.",
+                    imageUrl = "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=300",
+                    registrationDate = currentDate,
+                    approved = false,
+                    vendorId = 3
+                )
+            )
+
             // Insert all products
-            (makeupProducts + clothingProducts + accessoryProducts).forEach { product ->
+            (makeupProducts + clothingProducts + accessoryProducts + pendingProducts).forEach { product ->
                 database.productDao().insertProduct(product)
             }
         }

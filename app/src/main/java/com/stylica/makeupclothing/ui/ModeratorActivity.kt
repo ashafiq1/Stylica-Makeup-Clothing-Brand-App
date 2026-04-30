@@ -2,7 +2,9 @@ package com.stylica.makeupclothing.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -20,6 +22,7 @@ import com.stylica.makeupclothing.utils.SessionManager
 class ModeratorActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var textViewPendingCount: TextView
+    private lateinit var layoutEmptyState: LinearLayout
     private lateinit var pendingProductAdapter: PendingProductAdapter
     private val pendingProducts = mutableListOf<Product>()
 
@@ -29,6 +32,7 @@ class ModeratorActivity : AppCompatActivity() {
 
         recyclerView = findViewById(R.id.recyclerViewPendingProducts)
         textViewPendingCount = findViewById(R.id.textViewPendingCount)
+        layoutEmptyState = findViewById(R.id.layoutEmptyState)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         pendingProductAdapter = PendingProductAdapter(
@@ -58,6 +62,13 @@ class ModeratorActivity : AppCompatActivity() {
 
                 pendingProductAdapter.updateProducts(pending)
                 textViewPendingCount.text = "${pending.size} product(s) pending approval"
+                if (pending.isEmpty()) {
+                    recyclerView.visibility = View.GONE
+                    layoutEmptyState.visibility = View.VISIBLE
+                } else {
+                    recyclerView.visibility = View.VISIBLE
+                    layoutEmptyState.visibility = View.GONE
+                }
             } catch (e: Exception) {
                 Toast.makeText(this@ModeratorActivity, "Failed to load products", Toast.LENGTH_SHORT).show()
             }
