@@ -138,6 +138,7 @@
 
                     <!-- Revenue Card -->
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/cardModRevenue"
                         android:layout_width="0dp"
                         android:layout_height="100dp"
                         android:layout_weight="1"
@@ -182,6 +183,7 @@
 
                     <!-- Products Card -->
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/cardModProducts"
                         android:layout_width="0dp"
                         android:layout_height="100dp"
                         android:layout_weight="1"
@@ -235,6 +237,7 @@
 
                     <!-- Sold Out Card -->
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/cardModSoldOut"
                         android:layout_width="0dp"
                         android:layout_height="100dp"
                         android:layout_weight="1"
@@ -279,6 +282,7 @@
 
                     <!-- Orders Card -->
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/cardModOrders"
                         android:layout_width="0dp"
                         android:layout_height="100dp"
                         android:layout_weight="1"

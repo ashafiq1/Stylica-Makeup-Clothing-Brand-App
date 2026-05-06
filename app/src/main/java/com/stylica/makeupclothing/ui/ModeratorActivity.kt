@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -82,6 +83,7 @@ class ModeratorActivity : AppCompatActivity() {
         bindViews()
         setupAdapters()
         setupTabs()
+        setupDashboardCardClicks()
         setupAddProductForm()
 
         // Logout
@@ -176,6 +178,22 @@ class ModeratorActivity : AppCompatActivity() {
         sections.forEachIndexed { i, section ->
             section.visibility = if (i == index) View.VISIBLE else View.GONE
         }
+    }
+
+    private fun setupDashboardCardClicks() {
+        // Revenue → Orders tab
+        findViewById<CardView>(R.id.cardModRevenue).setOnClickListener { switchTab(2) }
+        // Products → Approvals tab (to manage product quality)
+        findViewById<CardView>(R.id.cardModProducts).setOnClickListener { switchTab(1) }
+        // Sold Out → Orders tab
+        findViewById<CardView>(R.id.cardModSoldOut).setOnClickListener { switchTab(2) }
+        // Total Orders → Orders tab
+        findViewById<CardView>(R.id.cardModOrders).setOnClickListener { switchTab(2) }
+        // Pending count stat → Approvals tab
+        findViewById<TextView>(R.id.textPendingOrders).setOnClickListener { switchTab(1) }
+        // Confirmed/Delivered stats → Orders tab
+        findViewById<TextView>(R.id.textConfirmedOrders).setOnClickListener { switchTab(2) }
+        findViewById<TextView>(R.id.textDeliveredOrders).setOnClickListener { switchTab(2) }
     }
 
     private fun setupAddProductForm() {

@@ -38,6 +38,7 @@
     </RelativeLayout>
 
     <ScrollView
+        android:id="@+id/adminScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -56,6 +57,7 @@
 
                 <!-- Products Card -->
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/cardProducts"
                     android:layout_width="0dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
@@ -69,7 +71,8 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:padding="12dp">
+                        android:padding="12dp"
+                        android:foreground="?attr/selectableItemBackground">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -99,6 +102,7 @@
 
                 <!-- Revenue Card -->
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/cardRevenue"
                     android:layout_width="0dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
@@ -111,7 +115,8 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:padding="12dp">
+                        android:padding="12dp"
+                        android:foreground="?attr/selectableItemBackground">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -150,6 +155,7 @@
 
                 <!-- Users Card -->
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/cardUsers"
                     android:layout_width="0dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
@@ -163,7 +169,8 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:padding="12dp">
+                        android:padding="12dp"
+                        android:foreground="?attr/selectableItemBackground">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -193,6 +200,7 @@
 
                 <!-- Orders Card -->
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/cardOrders"
                     android:layout_width="0dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
@@ -205,7 +213,8 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:padding="12dp">
+                        android:padding="12dp"
+                        android:foreground="?attr/selectableItemBackground">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -244,6 +253,7 @@
 
                 <!-- Moderators Card -->
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/cardModerators"
                     android:layout_width="0dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
@@ -257,7 +267,8 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:padding="12dp">
+                        android:padding="12dp"
+                        android:foreground="?attr/selectableItemBackground">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -287,6 +298,7 @@
 
                 <!-- Couriers Card -->
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/cardCouriers"
                     android:layout_width="0dp"
                     android:layout_height="100dp"
                     android:layout_weight="1"
@@ -299,7 +311,8 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical"
                         android:gravity="center"
-                        android:padding="12dp">
+                        android:padding="12dp"
+                        android:foreground="?attr/selectableItemBackground">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -408,6 +421,7 @@
 
             <!-- Products List Section -->
             <TextView
+                android:id="@+id/textProductsHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="All Products"

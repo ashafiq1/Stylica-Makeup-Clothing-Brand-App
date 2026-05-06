@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -40,6 +41,19 @@ class AdminDashboardActivity : AppCompatActivity() {
         findViewById<Button>(R.id.buttonViewUsers).setOnClickListener { showUsersDialog() }
         findViewById<Button>(R.id.buttonViewOrders).setOnClickListener { showOrdersDialog() }
         findViewById<Button>(R.id.buttonAdminLogout).setOnClickListener { logout() }
+
+        // Clickable stat cards
+        val scrollView = findViewById<ScrollView>(R.id.adminScrollView)
+        val productsHeader = findViewById<TextView>(R.id.textProductsHeader)
+
+        findViewById<CardView>(R.id.cardProducts).setOnClickListener {
+            scrollView.post { scrollView.smoothScrollTo(0, productsHeader.top) }
+        }
+        findViewById<CardView>(R.id.cardRevenue).setOnClickListener { showRevenueDialog() }
+        findViewById<CardView>(R.id.cardUsers).setOnClickListener { showUsersDialog() }
+        findViewById<CardView>(R.id.cardOrders).setOnClickListener { showOrdersDialog() }
+        findViewById<CardView>(R.id.cardModerators).setOnClickListener { showModeratorsDialog() }
+        findViewById<CardView>(R.id.cardCouriers).setOnClickListener { showCouriersDialog() }
 
         loadDashboard()
     }
@@ -166,6 +180,71 @@ class AdminDashboardActivity : AppCompatActivity() {
                 Toast.makeText(this@AdminDashboardActivity, "Failed to delete product", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun showRevenueDialog() {
+        lifecycleScope.launch {
+            try {
+                val db = DatabaseProvider.getDatabase(applicationContext)
+                val orders = db.orderDao().getAllOrders()
+                val products = db.productDao().getAllProducts()
+                val productMap = products.associateBy { it.id }
+
+                val delivered = orders.filter { it.status == Constants.ORDER_STATUS_DELIVERED }
+                val confirmed = orders.filter { it.status == "confirmed" }
+                val pending = orders.filter { it.status == Constants.ORDER_STATUS_PENDING }
+
+                fun revenue(list: List<com.stylica.makeupclothing.model.Order>) =
+                    list.sumOf { (productMap[it.productId]?.price ?: 0.0) * it.quantity }.toLong()
+
+                val msg = "Delivered Orders: ${delivered.size}\nRevenue Earned: Rs ${revenue(delivered)}\n\n" +
+                          "Confirmed Orders: ${confirmed.size}\nExpected: Rs ${revenue(confirmed)}\n\n" +
+                          "Pending Orders: ${pending.size}\nPotential: Rs ${revenue(pending)}"
+
+                AlertDialog.Builder(this@AdminDashboardActivity)
+                    .setTitle("Revenue Breakdown")
+                    .setMessage(msg)
+                    .setPositiveButton("Close", null)
+                    .show()
+            } catch (e: Exception) {
+                Toast.makeText(this@AdminDashboardActivity, "Failed to load revenue", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun showModeratorsDialog() {
+        lifecycleScope.launch {
+            try {
+                val users = DatabaseProvider.getDatabase(applicationContext).userDao().getAllUsers()
+                val moderators = users.filter { it.role == Constants.ROLE_MODERATOR }
+                if (moderators.isEmpty()) {
+                    Toast.makeText(this@AdminDashboardActivity, "No moderators found", Toast.LENGTH_SHORT).show()
+                    return@launch
+                }
+                val list = moderators.map { "👤  ${it.name}  |  @${it.contact}  |  ${it.registrationDate.take(10)}" }.toTypedArray()
+                AlertDialog.Builder(this@AdminDashboardActivity)
+                    .setTitle("Moderators (${moderators.size})")
+                    .setItems(list, null)
+                    .setPositiveButton("Close", null)
+                    .show()
+            } catch (e: Exception) {
+                Toast.makeText(this@AdminDashboardActivity, "Failed to load moderators", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun showCouriersDialog() {
+        val couriers = arrayOf(
+            "🚚  TCS  —  Cash on Delivery, Express",
+            "🚚  Leopards  —  Same Day, Overnight",
+            "🚚  DHL  —  International, Tracked",
+            "🚚  PostEx  —  COD Specialist, Pakistan-wide"
+        )
+        AlertDialog.Builder(this)
+            .setTitle("Courier Partners (4)")
+            .setItems(couriers, null)
+            .setPositiveButton("Close", null)
+            .show()
     }
 
     private fun showUsersDialog() {
