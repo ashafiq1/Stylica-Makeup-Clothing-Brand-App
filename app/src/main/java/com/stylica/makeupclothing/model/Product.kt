@@ -1,5 +1,6 @@
 package com.stylica.makeupclothing.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -14,5 +15,6 @@ data class Product(
     val imageUrl: String?,
     val registrationDate: String,
     val approved: Boolean = false,
-    val vendorId: Int?
+    val vendorId: Int?,
+    @ColumnInfo(defaultValue = "10") val stock: Int = 10
 )

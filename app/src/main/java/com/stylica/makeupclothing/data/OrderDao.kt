@@ -19,4 +19,7 @@ interface OrderDao {
 
     @Query("SELECT * FROM orders")
     suspend fun getAllOrders(): List<Order>
+
+    @Query("SELECT * FROM orders WHERE status = :status")
+    suspend fun getOrdersByStatus(status: String): List<Order>
 }

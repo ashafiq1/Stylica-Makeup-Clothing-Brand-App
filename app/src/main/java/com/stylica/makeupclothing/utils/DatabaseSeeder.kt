@@ -2,6 +2,7 @@ package com.stylica.makeupclothing.utils
 
 import android.content.Context
 import com.stylica.makeupclothing.data.AppDatabase
+import com.stylica.makeupclothing.model.Order
 import com.stylica.makeupclothing.model.Product
 import com.stylica.makeupclothing.model.User
 import kotlinx.coroutines.CoroutineScope
@@ -144,7 +145,8 @@ object DatabaseSeeder {
                     imageUrl = "https://images.unsplash.com/photo-1596704017254-9b121068fe58?w=300",
                     registrationDate = currentDate,
                     approved = true,
-                    vendorId = 1
+                    vendorId = 1,
+                    stock = 0
                 )
             )
             
@@ -248,7 +250,8 @@ object DatabaseSeeder {
                     imageUrl = "https://images.unsplash.com/photo-1601924357840-3e0d38e08851?w=300",
                     registrationDate = currentDate,
                     approved = true,
-                    vendorId = 1
+                    vendorId = 1,
+                    stock = 0
                 )
             )
             
@@ -319,6 +322,35 @@ object DatabaseSeeder {
             // Insert all products
             (makeupProducts + clothingProducts + accessoryProducts + pendingProducts).forEach { product ->
                 database.productDao().insertProduct(product)
+            }
+
+            // Seed dummy orders using actual inserted product IDs
+            val allInserted = database.productDao().getAllProducts().filter { it.approved }
+            if (allInserted.size >= 5) {
+                val orders = listOf(
+                    Order(userId = 3, productId = allInserted[0].id, quantity = 2,
+                        orderDate = "2026-04-10 10:30:00", status = "delivered",
+                        courier = "TCS", paymentMode = "Cash on Delivery"),
+                    Order(userId = 3, productId = allInserted[2].id, quantity = 1,
+                        orderDate = "2026-04-18 14:15:00", status = "delivered",
+                        courier = "Leopards", paymentMode = "Online"),
+                    Order(userId = 3, productId = allInserted[6].id, quantity = 1,
+                        orderDate = "2026-04-25 09:00:00", status = "confirmed",
+                        courier = "TCS", paymentMode = "Cash on Delivery"),
+                    Order(userId = 3, productId = allInserted[1].id, quantity = 3,
+                        orderDate = "2026-04-28 16:45:00", status = "confirmed",
+                        courier = "Leopards", paymentMode = "Online"),
+                    Order(userId = 3, productId = allInserted[4].id, quantity = 1,
+                        orderDate = "2026-05-01 11:20:00", status = "pending",
+                        courier = null, paymentMode = "Cash on Delivery"),
+                    Order(userId = 3, productId = allInserted[3].id, quantity = 2,
+                        orderDate = "2026-05-03 13:00:00", status = "pending",
+                        courier = null, paymentMode = "Online"),
+                    Order(userId = 3, productId = allInserted[5].id, quantity = 1,
+                        orderDate = "2026-05-05 08:30:00", status = "pending",
+                        courier = null, paymentMode = "Cash on Delivery")
+                )
+                orders.forEach { database.orderDao().insertOrder(it) }
             }
         }
     }
