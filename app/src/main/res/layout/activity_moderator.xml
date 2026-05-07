@@ -32,7 +32,7 @@
                 android:id="@+id/textViewPendingCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Loading..."
+                android:text="Order tracking &amp; product management"
                 android:textSize="12sp"
                 android:textColor="#FFD6EC" />
 
@@ -71,18 +71,6 @@
             android:gravity="center"
             android:textColor="#FFFFFF"
             android:background="#E91E8C" />
-
-        <TextView
-            android:id="@+id/tabApprovals"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Approvals"
-            android:textSize="11sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:textColor="#E91E8C"
-            android:background="#FFFFFF" />
 
         <TextView
             android:id="@+id/tabOrders"
@@ -539,57 +527,6 @@
             </LinearLayout>
 
         </ScrollView>
-
-        <!-- ========== APPROVALS SECTION ========== -->
-        <LinearLayout
-            android:id="@+id/sectionApprovals"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <!-- Empty State -->
-            <LinearLayout
-                android:id="@+id/layoutEmptyState"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="&#9989;"
-                    android:textSize="56sp"
-                    android:layout_marginBottom="12dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="All caught up!"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="#1A1A2E"
-                    android:layout_marginBottom="6dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="No products pending approval"
-                    android:textSize="14sp"
-                    android:textColor="#757575" />
-
-            </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewPendingProducts"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="8dp"
-                android:clipToPadding="false" />
-
-        </LinearLayout>
 
         <!-- ========== ORDERS SECTION ========== -->
         <LinearLayout
